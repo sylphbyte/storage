@@ -1,7 +1,6 @@
 package storage
 
 import (
-	"context"
 	"crypto/tls"
 	"fmt"
 	"net/http"
@@ -13,6 +12,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 	"github.com/sylphbyte/pr"
+	"github.com/sylphbyte/sylph"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -108,7 +108,7 @@ func InitializeStorage(configPath string, enabledMysql, enabledRedis map[string]
 		}
 
 		// 注册到存储管理器
-		storageManager.RegisterDB(name, db)
+		storageManager.RegisterDB(name, NewMysqlStorage(name, db))
 		pr.System("MySQL数据库 %s 已注册到存储管理器", name)
 	}
 
@@ -136,7 +136,7 @@ func InitializeStorage(configPath string, enabledMysql, enabledRedis map[string]
 		}
 
 		// 注册到存储管理器
-		storageManager.RegisterRedis(name, redis)
+		storageManager.RegisterRedis(name, NewRedisStorage(name, redis))
 		pr.System("Redis %s 已注册到存储管理器", name)
 	}
 
@@ -179,7 +179,7 @@ func InitializeStorage(configPath string, enabledMysql, enabledRedis map[string]
 		}
 
 		// 注册到存储管理器
-		storageManager.RegisterES(name, es)
+		storageManager.RegisterES(name, NewESStorage(name, es))
 		pr.System("Elasticsearch %s 已注册到存储管理器", name)
 	}
 
@@ -250,7 +250,7 @@ func InitRedis(config RedisConfig) (*redis.Client, error) {
 	})
 
 	// 测试连接
-	ctx := context.Background()
+	ctx := sylph.NewDefaultContext("init", "")
 	if _, err := redisClient.Ping(ctx).Result(); err != nil {
 		return nil, errors.Wrapf(err, "连接Redis失败: %s:%d", config.Host, config.Port)
 	}

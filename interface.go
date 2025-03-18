@@ -2,11 +2,11 @@
 package storage
 
 import (
-	"context"
 	"time"
 
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/go-redis/redis/v8"
+	"github.com/sylphbyte/sylph"
 	"gorm.io/gorm"
 )
 
@@ -66,12 +66,12 @@ type Storage interface {
 
 	// 状态管理
 	IsConnected() bool
-	Connect(ctx context.Context) error
-	Disconnect(ctx context.Context) error
-	Reconnect(ctx context.Context) error
+	Connect(ctx sylph.Context) error
+	Disconnect(ctx sylph.Context) error
+	Reconnect(ctx sylph.Context) error
 
 	// 健康检查
-	Ping(ctx context.Context) error
+	Ping(ctx sylph.Context) error
 	GetHealthStatus() *HealthStatus
 }
 
@@ -79,22 +79,22 @@ type Storage interface {
 type DBStorage interface {
 	Storage
 	GetDB() *gorm.DB
-	WithTransaction(ctx context.Context, fn func(tx *gorm.DB) error) error
+	WithTransaction(ctx sylph.Context, fn func(tx *gorm.DB) error) error
 }
 
 // RedisStorage Redis存储接口
 type RedisStorage interface {
 	Storage
 	GetClient() *redis.Client
-	WithPipeline(ctx context.Context, fn func(pipe redis.Pipeliner) error) error
+	WithPipeline(ctx sylph.Context, fn func(pipe redis.Pipeliner) error) error
 }
 
 // ESStorage Elasticsearch存储接口
 type ESStorage interface {
 	Storage
 	GetClient() *elasticsearch.Client
-	IndexExists(ctx context.Context, index string) (bool, error)
-	CreateIndex(ctx context.Context, index string, mapping string) error
+	IndexExists(ctx sylph.Context, index string) (bool, error)
+	CreateIndex(ctx sylph.Context, index string, mapping string) error
 }
 
 // StorageManager 存储管理器接口
@@ -113,6 +113,6 @@ type StorageManager interface {
 
 	// 全局操作
 	GetAllStorages() map[string]Storage
-	HealthCheck(ctx context.Context) map[string]*HealthStatus
-	CloseAll(ctx context.Context) error
+	HealthCheck(ctx sylph.Context) map[string]*HealthStatus
+	CloseAll(ctx sylph.Context) error
 }
