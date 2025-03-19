@@ -63,7 +63,7 @@ type StorageConfigs struct {
 }
 
 // InitializeStorage 初始化存储服务
-func InitializeStorage(configPath string, enabledMysql, enabledRedis map[string]bool, enabledES map[string]bool) (*StorageManagerImpl, error) {
+func InitializeStorage(configPath string, enabledMysql, enabledRedis map[string]bool, enabledES map[string]bool) (*ManagerImpl, error) {
 	pr.System("初始化存储服务，配置文件: %s", configPath)
 
 	// 直接使用viper解析配置
@@ -108,7 +108,11 @@ func InitializeStorage(configPath string, enabledMysql, enabledRedis map[string]
 		}
 
 		// 注册到存储管理器
-		storageManager.RegisterDB(name, NewMysqlStorage(name, db))
+		if err = storageManager.RegisterDB(name, NewMysqlStorage(name, db)); err != nil {
+			pr.Error("初始化MySQL连接失败: %s, err: %v", name, err)
+			continue
+		}
+
 		pr.System("MySQL数据库 %s 已注册到存储管理器", name)
 	}
 
@@ -130,13 +134,17 @@ func InitializeStorage(configPath string, enabledMysql, enabledRedis map[string]
 		}
 
 		// 初始化Redis连接
-		redis, err := InitRedis(redisConfig)
+		rds, err := InitRedis(redisConfig)
 		if err != nil {
 			return nil, errors.Wrapf(err, "初始化Redis连接失败: %s", name)
 		}
 
 		// 注册到存储管理器
-		storageManager.RegisterRedis(name, NewRedisStorage(name, redis))
+		if err = storageManager.RegisterRedis(name, NewRedisStorage(name, rds)); err != nil {
+			pr.Error("初始化Redis连接失败: %s, err: %v", name, err)
+			continue
+		}
+
 		pr.System("Redis %s 已注册到存储管理器", name)
 	}
 
@@ -179,7 +187,11 @@ func InitializeStorage(configPath string, enabledMysql, enabledRedis map[string]
 		}
 
 		// 注册到存储管理器
-		storageManager.RegisterES(name, NewESStorage(name, es))
+		if err = storageManager.RegisterES(name, NewESStorage(name, es)); err != nil {
+			pr.Error("初始化Elasticsearch连接失败: %s, err: %v", name, err)
+			continue
+		}
+
 		pr.System("Elasticsearch %s 已注册到存储管理器", name)
 	}
 

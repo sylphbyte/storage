@@ -8,8 +8,8 @@ import (
 	"github.com/sylphbyte/sylph"
 )
 
-// StorageManagerImpl 存储管理器实现
-type StorageManagerImpl struct {
+// ManagerImpl 存储管理器实现
+type ManagerImpl struct {
 	// 存储服务映射
 	dbMap    map[string]DBStorage
 	redisMap map[string]RedisStorage
@@ -25,8 +25,8 @@ type StorageManagerImpl struct {
 }
 
 // NewStorageManager 创建存储管理器
-func NewStorageManager() *StorageManagerImpl {
-	return &StorageManagerImpl{
+func NewStorageManager() *ManagerImpl {
+	return &ManagerImpl{
 		dbMap:    make(map[string]DBStorage),
 		redisMap: make(map[string]RedisStorage),
 		esMap:    make(map[string]ESStorage),
@@ -34,7 +34,7 @@ func NewStorageManager() *StorageManagerImpl {
 }
 
 // GetDB 获取数据库存储
-func (sm *StorageManagerImpl) GetDB(name ...string) (DBStorage, error) {
+func (sm *ManagerImpl) GetDB(name ...string) (DBStorage, error) {
 	sm.mutex.RLock()
 	defer sm.mutex.RUnlock()
 
@@ -59,7 +59,7 @@ func (sm *StorageManagerImpl) GetDB(name ...string) (DBStorage, error) {
 }
 
 // RegisterDB 注册数据库存储
-func (sm *StorageManagerImpl) RegisterDB(name string, storage DBStorage) error {
+func (sm *ManagerImpl) RegisterDB(name string, storage DBStorage) error {
 	sm.mutex.Lock()
 	defer sm.mutex.Unlock()
 
@@ -81,7 +81,7 @@ func (sm *StorageManagerImpl) RegisterDB(name string, storage DBStorage) error {
 }
 
 // GetRedis 获取Redis存储
-func (sm *StorageManagerImpl) GetRedis(name ...string) (RedisStorage, error) {
+func (sm *ManagerImpl) GetRedis(name ...string) (RedisStorage, error) {
 	sm.mutex.RLock()
 	defer sm.mutex.RUnlock()
 
@@ -106,7 +106,7 @@ func (sm *StorageManagerImpl) GetRedis(name ...string) (RedisStorage, error) {
 }
 
 // RegisterRedis 注册Redis存储
-func (sm *StorageManagerImpl) RegisterRedis(name string, storage RedisStorage) error {
+func (sm *ManagerImpl) RegisterRedis(name string, storage RedisStorage) error {
 	sm.mutex.Lock()
 	defer sm.mutex.Unlock()
 
@@ -128,7 +128,7 @@ func (sm *StorageManagerImpl) RegisterRedis(name string, storage RedisStorage) e
 }
 
 // GetES 获取ES存储
-func (sm *StorageManagerImpl) GetES(name ...string) (ESStorage, error) {
+func (sm *ManagerImpl) GetES(name ...string) (ESStorage, error) {
 	sm.mutex.RLock()
 	defer sm.mutex.RUnlock()
 
@@ -153,7 +153,7 @@ func (sm *StorageManagerImpl) GetES(name ...string) (ESStorage, error) {
 }
 
 // RegisterES 注册ES存储
-func (sm *StorageManagerImpl) RegisterES(name string, storage ESStorage) error {
+func (sm *ManagerImpl) RegisterES(name string, storage ESStorage) error {
 	sm.mutex.Lock()
 	defer sm.mutex.Unlock()
 
@@ -175,7 +175,7 @@ func (sm *StorageManagerImpl) RegisterES(name string, storage ESStorage) error {
 }
 
 // GetAllStorages 获取所有存储
-func (sm *StorageManagerImpl) GetAllStorages() map[string]Storage {
+func (sm *ManagerImpl) GetAllStorages() map[string]Storage {
 	sm.mutex.RLock()
 	defer sm.mutex.RUnlock()
 
@@ -200,7 +200,7 @@ func (sm *StorageManagerImpl) GetAllStorages() map[string]Storage {
 }
 
 // HealthCheck 健康检查
-func (sm *StorageManagerImpl) HealthCheck(ctx sylph.Context) map[string]*HealthStatus {
+func (sm *ManagerImpl) HealthCheck(ctx sylph.Context) map[string]*HealthStatus {
 	result := make(map[string]*HealthStatus)
 
 	// 获取所有存储
@@ -233,7 +233,7 @@ func (sm *StorageManagerImpl) HealthCheck(ctx sylph.Context) map[string]*HealthS
 }
 
 // CloseAll 关闭所有存储连接
-func (sm *StorageManagerImpl) CloseAll(ctx sylph.Context) error {
+func (sm *ManagerImpl) CloseAll(ctx sylph.Context) error {
 	var errs []error
 
 	// 获取所有存储
