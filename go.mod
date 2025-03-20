@@ -1,8 +1,7 @@
 module github.com/sylphbyte/storage
 
-go 1.24.0
+go 1.24.1
 
-toolchain go1.24.1
 
 require (
 	github.com/elastic/go-elasticsearch/v7 v7.17.10
@@ -12,7 +11,7 @@ require (
 	github.com/spf13/viper v1.20.0
 	github.com/stretchr/testify v1.10.0
 	github.com/sylphbyte/pr v1.0.3
-	github.com/sylphbyte/sylph v1.2.9
+	github.com/sylphbyte/sylph v1.2.10
 	gorm.io/driver/mysql v1.5.4
 	gorm.io/gorm v1.25.7
 )
