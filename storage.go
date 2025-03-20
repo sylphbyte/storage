@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"context"
 	"crypto/tls"
 	"fmt"
 	"net/http"
@@ -12,7 +13,6 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 	"github.com/sylphbyte/pr"
-	"github.com/sylphbyte/sylph"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -262,7 +262,7 @@ func InitRedis(config RedisConfig) (*redis.Client, error) {
 	})
 
 	// 测试连接
-	ctx := sylph.NewDefaultContext("init", "")
+	ctx := context.Background()
 	if _, err := redisClient.Ping(ctx).Result(); err != nil {
 		return nil, errors.Wrapf(err, "连接Redis失败: %s:%d", config.Host, config.Port)
 	}
