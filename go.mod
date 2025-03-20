@@ -12,7 +12,7 @@ require (
 	github.com/spf13/viper v1.20.0
 	github.com/stretchr/testify v1.10.0
 	github.com/sylphbyte/pr v1.0.3
-	github.com/sylphbyte/sylph v1.2.8
+	github.com/sylphbyte/sylph v1.2.9
 	gorm.io/driver/mysql v1.5.4
 	gorm.io/gorm v1.25.7
 )

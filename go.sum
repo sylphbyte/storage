@@ -249,8 +249,8 @@ github.com/subosito/gotenv v1.6.0 h1:9NlTDc1FTs4qu0DDq7AEtTPNw6SVm7uBMsUCUjABIf8
 github.com/subosito/gotenv v1.6.0/go.mod h1:Dk4QP5c2W3ibzajGcXpNraDfq2IrhjMIvMSWPKKo0FU=
 github.com/sylphbyte/pr v1.0.3 h1:vN6p7TUJh7di3GtOO0fIA7niAkesBzHNKHiNOHYT6eM=
 github.com/sylphbyte/pr v1.0.3/go.mod h1:M0Q7rFlRLJfsH+HsCv8qTumBxDNaARQ/HE5PwlZypt8=
-github.com/sylphbyte/sylph v1.2.8 h1:UVuejkuk1rWafczEu9LAVRjoD6uTgj7BrxB1h88f8ZQ=
-github.com/sylphbyte/sylph v1.2.8/go.mod h1:d/ytZzmgghqj++URiqYBke6awCwAPCKhkBQZadRZmfU=
+github.com/sylphbyte/sylph v1.2.9 h1:MI0lTaR4j07EZ68j9fJ4sYrc4XvhxLSZPEK7Y7jQnfI=
+github.com/sylphbyte/sylph v1.2.9/go.mod h1:d/ytZzmgghqj++URiqYBke6awCwAPCKhkBQZadRZmfU=
 github.com/twitchyliquid64/golang-asm v0.15.1 h1:SU5vSMR7hnwNxj24w34ZyCi/FmDZTkS4MhqMhdFk5YI=
 github.com/twitchyliquid64/golang-asm v0.15.1/go.mod h1:a1lVb/DtPvCB8fslRZhAngC2+aY1QWCk3Cedj/Gdt08=
 github.com/ugorji/go/codec v1.2.12 h1:9LC83zGrHhuUA9l16C9AHXAqEV/2wBQ4nkvumAE65EE=
